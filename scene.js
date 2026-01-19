@@ -10,17 +10,16 @@ export function createScene() {
         0.1,
         1000
     );
-    camera.position.set(0, 1.7, 5); // wysokość oczu
+    camera.position.set(0, 1.7, 5);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    const sun = new THREE.DirectionalLight(0xffffff, 1);
-    sun.position.set(50, 100, 50);
-    scene.add(sun);
-
-    scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(5, 10, 5);
+    scene.add(light);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
 
     window.addEventListener("resize", () => {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -28,5 +27,5 @@ export function createScene() {
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    return { scene, camera, renderer, sun };
+    return { scene, camera, renderer };
 }
