@@ -1,14 +1,26 @@
 import { createScene } from "./scene.js";
 import { createWorld } from "./world.js";
-import { createPlayer } from "./player.js";
+import { setupPlayer } from "./player.js";
 
-const { scene, camera, renderer } = createScene();
+const { scene, camera, renderer, sun } = createScene();
 createWorld(scene);
-createPlayer(scene);
 
-function animate() {
-    requestAnimationFrame(animate);
+const updatePlayer = setupPlayer(camera, renderer);
+
+let time = 0;
+let last = performance.now();
+
+function animate(now) {
+    const delta = (now - last) / 1000;
+    last = now;
+
+    time += delta * 0.05; // prędkość czasu
+    sun.position.y = Math.sin(time) * 100;
+    sun.intensity = Math.max(0.1, Math.sin(time) + 0.5);
+
+    updatePlayer(delta);
     renderer.render(scene, camera);
+    requestAnimationFrame(animate);
 }
 
-animate();
+animate(performance.now());
